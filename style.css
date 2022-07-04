@@ -1,0 +1,27 @@
+/* Tomas Dessy */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+
+.board-wrap {
+    width: 500px;
+    height: 500px;
+
+    border: 1px solid #000;
+
+    display: grid;
+    grid: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.cell {
+    padding: 15px;
+    border: 1px solid #000;
+
+    text-align: center;
+    font-size: 5rem;
+}
