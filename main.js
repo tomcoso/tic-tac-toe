@@ -40,12 +40,17 @@ let pubsub = {
 // gameboard module
 let gameboard = (function() {
 
-    let gameboard = ['o', null, 'x', 'o', 'x', null, 'x', null, null]; ;
+    let gameboard = ['o', 'o', 'x', 'o', 'x', 'x', 'x', 'o', 'x']; ;
+    let lastPlay = '';
+    let firstMove = '';
     let seeArray = function() {
         console.log(gameboard);
     };
 
+    // Cache DOM
     let htmlBoard = document.querySelectorAll('.cell');
+    htmlBoard.forEach(each => {each.addEventListener('click', _selectPlayer)})
+
 
     let _render = function() {
         for ( let i = 0 ; i < gameboard.length ; i++ ) {
@@ -62,10 +67,54 @@ let gameboard = (function() {
         _render();
     }
 
+    var _selectPlayer = function() {
+        switch (lastPlay) {
+            case 'playero' :
+                pubsub.publish('playerMove', 'playerx');
+                lastPlay = 'playerx';
+                break;
+            case 'playerx' :
+                pubsub.publish('playerMove', 'playero');
+                lastPlay = 'playero';
+                break;
+            case '' :
+                pubsub.publish('playerMove', firstMove);
+                if (firstMove === 'playerx') {
+                    lastPlay = 'playero';
+                }
+                else {
+                    lastPlay = 'playerx';
+                }
+                break;
+        }
+    }
 
+    let _checkStatus = function() {
+        let boardMatch = '';
+        for (let i = 0; i < gameboard.length ; i++) {
+            if (gameboard[i] === null) {
+                boardMatch += 'n';
+            }
+            else {
+                boardMatch += gameboard[i];
+            }
+        }
 
-    return { seeArray, _restart };
-})();
+            // match horizontal wins
+        if (boardMatch.match(/(^((o){3}|(x){3}))|(((o){3}|(x){3})$)|(\S{3}((o){3}|(x){3})\S{3})/) ||
+
+            // match vertical wins
+            boardMatch.match(/((o(\S){2}){2}o)|((x(\S){2}){2}x)/) ||
+
+            // match diagonal wins
+            boardMatch.match(/((^(o(\S){3}){2}o)|((\S){2}(o(\S){1}){2}o))|((^(x(\S){3}){2}x)|((\S){2}(x(\S){1}){2}x))/)) {
+
+            pubsub.publish('statusChange', 'win', lastPlay);
+        }
+    }
+
+    return { seeArray, _restart, _checkStatus };
+})(); 
 
 
 
@@ -77,7 +126,7 @@ let gameboard = (function() {
 let Player = function(name, symbol) {
 
     this.name = name;
-    this.symbol = symbol;
+    this.id = `player${symbol}`;
     this.score = 0
 
     let _play = function(index) {
@@ -94,3 +143,10 @@ let Player = function(name, symbol) {
     }
 
 }
+
+let display = (function() {
+
+    // cache DOM
+    
+
+})();
