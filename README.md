@@ -26,10 +26,10 @@
 
 4. Display Module
 
-    code continue button
-    code new game button
-    code scores on players
-    code scores on display after continue button is pressed
+    <!-- code continue button -->
+    <!-- code new game button -->
+    <!-- code scores on players -->
+    <!-- code scores on display after continue button is pressed -->
     code player name inputs
     code symbol selection
     code new game button so that it takes you to start game and name input panel

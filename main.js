@@ -191,9 +191,6 @@ let Player = function(name, symbol) {
     this.id = `player${symbol.toLowerCase()}`;
     this.score = 0
 
-    // let _changeScore = function() {
-
-    // }
     // pubsub.subscribe('changeStatus', _changeScore);
 
     // let _resetCount = function() {
@@ -249,26 +246,37 @@ let display = (function() {
         changeStatusPanel.classList.toggle('hidden');
         pubsub.publish('newRound');
 
-
     }
     newRoundBtn.addEventListener('click', _newRound);
+
+    let _newGame = function() {
+
+        startGamePanel.classList.toggle('hidden');
+        changeStatusPanel.classList.toggle('hidden');
+        player1Count.textContent = 0
+        player2Count.textContent = 0
+
+    }
+    newGameBtn.addEventListener('click', _newGame);
 
     let _statusHandler = function(data) {
         console.log('statusHandler', data)
         changeStatusPanel.classList.toggle('hidden');
 
         if (data[0] === 'win') {
-            pubsub.publish('changeScore', data[1])
 
             changeStatusMsg.textContent = `${data[1].name} wins this round!!`
+            if (data[1].name === player1Name) {
+                player1Count.textContent = +player1Count.textContent + 1;
+            } else if (data[1].name === player2Name) {
+                player2Count.textContent = +player2Count.textContent + 1;
+            }
         }
         else if (data[0] === 'tie') {
             changeStatusMsg.textContent = "Its's a tie!!"
         }
     }
         
-
-
     pubsub.subscribe('statusChange', _statusHandler);
 
     return {  }
