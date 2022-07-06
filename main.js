@@ -56,10 +56,15 @@ let gameboard = (function() {
         console.log('render:',player, position);
 
         for (let i = 0; i < htmlBoard.length ; i++) {
+
             if (htmlBoard[i] === position) {
+
                 let index = htmlBoard[i].attributes[1].value
                 let symbolIndex = player.length - 1;
-                gameboard[index] = player[symbolIndex];
+
+                if (gameboard[index] === null) {
+                    gameboard[index] = player[symbolIndex];
+                }
             }
         }
 
@@ -126,7 +131,11 @@ let gameboard = (function() {
             // match diagonal wins
             boardMatch.match(/((^(o(\S){3}){2}o)|((\S){2}(o(\S){1}){2}o))|((^(x(\S){3}){2}x)|((\S){2}(x(\S){1}){2}x))/)) {
 
-            pubsub.publish('statusChange', 'win', lastPlay);
+            pubsub.publish('statusChange', ['win', lastPlay]);
+
+            // match tie
+        } else if (!boardMatch.match(/n/)) {
+            pubsub.publish('statusChange', ['tie']);
         }
     }
 
@@ -149,14 +158,6 @@ let Player = function(name, symbol) {
     this.id = `player${symbol.toLowerCase()}`;
     this.score = 0
 
-    let play = function(player, position) {
-        console.log('play', player, position, this.id)
-        if (this.id === player) {
-            
-            pubsub.publish('makeMove', [player, position]);
-        }
-    }
-
     // let _changeScore = function() {
 
     // }
@@ -166,9 +167,7 @@ let Player = function(name, symbol) {
 
     // }
 
-    // pubsub.subscribe('selectMove', play);
-
-    return { id, play };
+    return { id, name, score };
 
 }
 
@@ -186,6 +185,11 @@ let display = (function() {
 
     let startGamePanel = document.querySelector('.start-container');
     let startGameBtn = document.querySelector('#start-game');
+
+    let changeStatusPanel = document.querySelector('.endgame-container');
+    let changeStatusMsg = document.querySelector('.endgame-container p');
+    let newRoundBtn = document.querySelector('#new-round');
+    let newGameBtn = document.querySelector('#new-game');
 
     let _setPlayer = function() {
 
@@ -205,8 +209,23 @@ let display = (function() {
 
         startGamePanel.classList.add('hidden');
     }
+
+    let _newRound = function() {
+
+    }
+
+    let _statusHandler = function(data) {
+        if (data[0] === 'win') {
+            pubsub.publish('changeScore', data[1])
+        }
+        else if (data[0] === 'tie') {
+            _newRound()
+        }
+    }
         
     startGameBtn.addEventListener('click', _startGame);
+
+    pubsub.subscribe('changeStatus', _statusHandler)
 
     return {  }
 })();
