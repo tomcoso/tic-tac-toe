@@ -153,7 +153,7 @@ main {
     height: 100%;
     background-color: #fff;
 
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
 }
@@ -164,12 +164,61 @@ main {
 
     border: 2px solid #000;
     border-radius: 5px;
-    box-shadow: 0px 10px 20px -10px #000;
+    box-shadow: 0px 5px 10px -5px #000;
 }
 #start-game:active {
-    transform: translateY(10px);
+    transform: translateY(5px);
     box-shadow: none;
 }
+
+#symbol1,
+#symbol2 {
+    display: grid;
+    grid: 1fr / min-content min-content;
+    place-content: center;
+    gap: 15px;
+}
+#symbol1 div,
+#symbol2 div{
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    border: 2px solid #000;
+    font-size: 3rem;
+    box-shadow: 0px 5px 5px -2px #000;
+}
+#symbol1 div:hover,
+#symbol2 div:hover{
+    transform: translateY(1px);
+}
+#symbol1 .symbolSelected,
+#symbol2 .symbolSelected,
+#symbol1 .symbolSelected:hover,
+#symbol2 .symbolSelected:hover  {
+    transform: translateY(2px);
+    box-shadow: none;
+    background-color: red;
+}
+#name1,
+#name2 {
+    display: grid;
+    place-content: center;
+    place-items: center;
+}
+#name1 input,
+#name2 input {
+    font-size: 2rem;
+    text-align: center;
+    width: 70%;
+
+    box-shadow: 0px 10px 10px -10px #000;
+    border: 1px solid #000;
+}
+#name1 input:focus,
+#name2 input:focus {
+    outline: none;
+}
+
 
 .endgame-container {
     position: absolute;
@@ -250,5 +299,17 @@ main {
     }
     .endgame-container p {
         font-size: 5vw;
+    }
+
+    #name1 input,
+    #name2 input {
+        font-size: 6vw;
+    }
+
+    #symbol1 div,
+    #symbol2 div{
+        width: 13vw;
+        height: 13vw;
+        font-size: 10vw;
     }
 }
