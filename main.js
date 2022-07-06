@@ -43,67 +43,93 @@ let gameboard = (function() {
     let gameboard = ['o', 'o', 'x', 'o', 'x', 'x', 'x', 'o', 'x']; ;
     let lastPlay = '';
     let firstMove = '';
+    let players = [];
     let seeArray = function() {
         console.log(gameboard);
     };
 
     // Cache DOM
     let htmlBoard = document.querySelectorAll('.cell');
+
+    let _getPlayers = function(data) {
+        console.log(data);
+
+        players = [];
+        players.push(data[0]);
+        players.push(data[1]);
+    }
+
+    let _clearArray = function() {
+
+        gameboard.forEach((element, index) => {
+            gameboard[index] = null;
+        });
+
+        _render();
+    }
     
 
 
     let _render = function(player, position) {
         console.log('render:',player, position);
 
-        for (let i = 0; i < htmlBoard.length ; i++) {
+        if (player && position){ 
+            for (let i = 0; i < htmlBoard.length ; i++) {
 
-            if (htmlBoard[i] === position) {
+                if (htmlBoard[i] === position) {
 
-                let index = htmlBoard[i].attributes[1].value
-                let symbolIndex = player.length - 1;
+                    let index = htmlBoard[i].attributes[1].value
+                    let symbolIndex = player.length - 1;
 
-                if (gameboard[index] === null) {
-                    gameboard[index] = player[symbolIndex];
+                    if (gameboard[index] === null) {
+                        gameboard[index] = player[symbolIndex];
+                    } else if (player === players[0].id){
+                        lastPlay = players[1].id;
+                    } else {
+                        lastPlay = players[0].id;
+                    }
                 }
             }
         }
-
         for ( let i = 0 ; i < gameboard.length ; i++ ) {
             htmlBoard[i].textContent = gameboard[i];
         }
+
+        _checkStatus();
     }
 
-    let _restart = function(player1) {
+    let _restart = function(players) {
 
-        console.log('restart', player1)
+        console.log('restart', players)
 
-        gameboard.forEach((element, index) => {
-            gameboard[index] = null;
-        });
+        _clearArray();
 
-        firstMove = player1.id;
+        firstMove = players[0].id;
 
-        _render();
+        _getPlayers(players);
     }
 
     let _selectPlayer = function() {
         console.log('selectPlayer:')
         switch (lastPlay) {
-            case 'playero' :
-                _render('playerx', this);
-                lastPlay = 'playerx';
+
+            case players[0].id :
+                lastPlay = players[1].id;
+                _render(players[1].id, this);
                 break;
-            case 'playerx' :
-                _render('playero', this);
-                lastPlay = 'playero';
+
+            case players[1].id :
+                lastPlay = players[0].id;
+                _render(players[0].id, this);
                 break;
+
             case '' :
                 _render(firstMove, this);
-                if (firstMove === 'playerx') {
-                    lastPlay = 'playerx';
+                if (firstMove === players[0].id) {
+                    lastPlay = players[0].id;
                 }
                 else {
-                    lastPlay = 'playero';
+                    lastPlay = players[1].id;
                 }
                 break;
         }
@@ -112,6 +138,7 @@ let gameboard = (function() {
     htmlBoard.forEach(each => each.addEventListener('click', _selectPlayer))
 
     let _checkStatus = function() {
+
         let boardMatch = '';
         for (let i = 0; i < gameboard.length ; i++) {
             if (gameboard[i] === null) {
@@ -121,6 +148,7 @@ let gameboard = (function() {
                 boardMatch += gameboard[i];
             }
         }
+        console.log('checkStatus');
 
             // match horizontal wins
         if (boardMatch.match(/(^((o){3}|(x){3}))|(((o){3}|(x){3})$)|(\S{3}((o){3}|(x){3})\S{3})/) ||
@@ -129,9 +157,13 @@ let gameboard = (function() {
             boardMatch.match(/((o(\S){2}){2}o)|((x(\S){2}){2}x)/) ||
 
             // match diagonal wins
-            boardMatch.match(/((^(o(\S){3}){2}o)|((\S){2}(o(\S){1}){2}o))|((^(x(\S){3}){2}x)|((\S){2}(x(\S){1}){2}x))/)) {
-
-            pubsub.publish('statusChange', ['win', lastPlay]);
+            boardMatch.match(/((^(o(\S){3}){2}o)|((\S){2}(o(\S){1}){2}o(\S){2}))|((^(x(\S){3}){2}x)|((\S){2}(x(\S){1}){2}x(\S){2}))/)) {
+            
+            if (lastPlay === players[0].id) {
+                pubsub.publish('statusChange', ['win', players[0]]);
+            } else {
+                pubsub.publish('statusChange', ['win', players[1]]);
+            };
 
             // match tie
         } else if (!boardMatch.match(/n/)) {
@@ -140,7 +172,8 @@ let gameboard = (function() {
     }
 
     pubsub.subscribe('newGame', _restart);
-    pubsub.subscribe('makeMove', _render)
+    pubsub.subscribe('makeMove', _render);
+    pubsub.subscribe('newRound', _clearArray);
 
     return { seeArray, _restart, _checkStatus };
 })(); 
@@ -205,27 +238,38 @@ let display = (function() {
 
         const { player1, player2 } = _setPlayer();
 
-        pubsub.publish('newGame', player1);
+        pubsub.publish('newGame', [player1, player2]);
 
         startGamePanel.classList.add('hidden');
     }
+    startGameBtn.addEventListener('click', _startGame);
 
     let _newRound = function() {
 
+        changeStatusPanel.classList.toggle('hidden');
+        pubsub.publish('newRound');
+
+
     }
+    newRoundBtn.addEventListener('click', _newRound);
 
     let _statusHandler = function(data) {
+        console.log('statusHandler', data)
+        changeStatusPanel.classList.toggle('hidden');
+
         if (data[0] === 'win') {
             pubsub.publish('changeScore', data[1])
+
+            changeStatusMsg.textContent = `${data[1].name} wins this round!!`
         }
         else if (data[0] === 'tie') {
-            _newRound()
+            changeStatusMsg.textContent = "Its's a tie!!"
         }
     }
         
-    startGameBtn.addEventListener('click', _startGame);
 
-    pubsub.subscribe('changeStatus', _statusHandler)
+
+    pubsub.subscribe('statusChange', _statusHandler);
 
     return {  }
 })();

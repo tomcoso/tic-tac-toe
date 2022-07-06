@@ -171,6 +171,42 @@ main {
     box-shadow: none;
 }
 
+.endgame-container {
+    position: absolute;
+    top: 0px;
+
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+
+    display: flex;
+    flex-direction: column;
+    gap: 3vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.endgame-container p {
+    font-size: 2rem;
+    font-weight: 500;
+    padding-bottom: 3vw;
+}
+
+#new-round,
+#new-game {
+    padding: 5px 15px;
+    font-size: 2rem;
+
+    border: 2px solid #000;
+    border-radius: 5px;
+    box-shadow: 0px 10px 20px -10px #000;
+}
+#new-round:active, 
+#new-game:active {
+    transform: translateY(5px);
+    box-shadow: none;
+}
+
 
 @media (max-width: 600px) {
     .board-wrap {
@@ -206,5 +242,13 @@ main {
 
     #start-game {
         font-size: 6vw;
+    }
+
+    #new-round,
+    #new-game {
+        font-size: 4vw;
+    }
+    .endgame-container p {
+        font-size: 5vw;
     }
 }

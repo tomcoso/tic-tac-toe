@@ -1,7 +1,7 @@
 # tic-tac-toe project from TOP
 
-#### [Live demo](https://tomcoso.github.io/tic-tac-toe/)
 ## [Live demo](https://tomcoso.github.io/tic-tac-toe/)
+
 ## Process
 
 1. Planning 
@@ -25,3 +25,14 @@
     <img src="./assets/images/gameboard.gif" width="400"/>
 
 4. Display Module
+
+    code continue button
+    code new game button
+    code scores on players
+    code scores on display after continue button is pressed
+    code player name inputs
+    code symbol selection
+    code new game button so that it takes you to start game and name input panel
+    make each player name light up when its the player's turn
+
+    BUG: fix _selectPlayer logic where if selecting on an marked cell you lose the turn
