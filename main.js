@@ -320,8 +320,8 @@ let display = (function() {
     }
 
     let _displayTurn = function() {
-        player1Display.classList.toggle('turn');
-        player2Display.classList.toggle('turn');
+        displaySection.classList.toggle('turn1');
+        displaySection.classList.toggle('turn2');
     }
         
     pubsub.subscribe('statusChange', _statusHandler);

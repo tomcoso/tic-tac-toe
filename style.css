@@ -300,8 +300,11 @@ main {
     box-shadow: none;
 }
 
-.turn {
-    background-color: var(--pink);
+.turn1 {
+    background: linear-gradient( to right, var(--pink), var(--white) 50%);
+}
+.turn2 {
+    background: linear-gradient( to left, var(--pink), var(--white) 50%);
 }
 
 
