@@ -292,6 +292,7 @@ main {
 #new-game {
     padding: 5px 15px;
     font-size: 2rem;
+    font-family: inherit;
 
     border: 2px solid var(--darkGrey);
     border-radius: 5px;
