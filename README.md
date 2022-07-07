@@ -26,14 +26,10 @@
 
 4. Display Module
 
-    <!-- code continue button -->
-    <!-- code new game button -->
-    <!-- code scores on players -->
-    <!-- code scores on display after continue button is pressed -->
-    <!-- code player name inputs -->
-    <!-- code symbol selection -->
-    <!-- code new game button so that it takes you to start game and name input panel -->
-    <!-- make each player name light up when its the player's turn -->
+    This time, I ended up making a list of all the isolated features i had to add one by one, and the list went by pretty fast. It was a great idea to isolate functionality and tackle it one at a time, while just writing down for later the bugs I found along the way that weren't involved in the specific feature I was working one. 
 
-    <!-- BUG: fix _selectPlayer logic where if selecting on an marked cell you lose the turn -->
-    <!-- BUG: broken counter -->
+    <img src="./assets/images/game-works.gif" width="400"/>
+
+    I managed to implement most of the functionality of the game, but it is in possession of an unfortunately ugly UI. So that will be next before I try to implement an AI and some extra UX features.
+
+5. (Slightly) Fancier Styling
