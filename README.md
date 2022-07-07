@@ -33,3 +33,5 @@
     I managed to implement most of the functionality of the game, but it is in possession of an unfortunately ugly UI. So that will be next before I try to implement an AI and some extra UX features.
 
 5. (Slightly) Fancier Styling
+
+    change turn display into a accent color chadow that alternates sides

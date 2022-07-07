@@ -10,6 +10,12 @@
 
 :root {
     font-family: 'Montserrat', sans-serif;
+
+    --darkGrey: hsl(174, 30%, 21%);
+    --white: hsl(66, 49%, 80%);
+    --twhite: hsla(66, 49%, 80%, 0.8);
+    --black: hsl(315, 77%, 5%);
+    --pink: hsl(345, 91%, 48%);
 }
 
 
@@ -17,16 +23,31 @@
     width: 100vw;
     height: 100vh;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid: 1fr 30px / 1fr;
+    place-items: center;
+    place-content: center;
 
-    background-color: #AAA;
+    background-color: var(--darkGrey);
 }
 
+footer {
+    display: flex;
+    gap: 30px;
+    /* margin-top: auto; */
+    margin-bottom: 10px;
+    color: var(--white);
+}
+footer img{
+    width: 20px;
+    height: 20px;
+    transition-duration: 300ms;
+}
+footer img:hover{
+    transform: rotate(360deg);
+}
 main {
-    border: 2px solid #000;
+    border: 3px solid var(--black);
     padding: 30px;
 
     display: grid;
@@ -35,7 +56,7 @@ main {
     gap: 10px;
     z-index: 0;
 
-    background-color: #fff;
+    background-color: var(--white);
     box-shadow: 0px 20px 20px -10px #000;
     border-radius: 5px;
 }
@@ -45,8 +66,8 @@ main {
     width: 400px;
     height: 400px;
 
-    border: 1px solid #000;
-    box-shadow: inset 0px 10px 20px -5px #000;
+    border: 2px solid #000;
+    box-shadow: inset 0px 10px 20px -5px var(--pink);
     border-radius: 5px;
 
     display: grid;
@@ -55,7 +76,8 @@ main {
 
 .cell {
     padding: 10%;
-    border: 1px solid #000;
+    border: 1px solid var(--darkGrey);
+    color: var(--black);
 
     text-align: center;
     font-size: 5rem;
@@ -67,15 +89,16 @@ main {
     display: grid;
     grid: 1fr / repeat(2, 1fr);
 
-    border: 2px solid #000;
+    border: 3px solid var(--black);
+    border-radius: 5px;
     padding: 10px;
 
     width: 600px;
     gap: 10px;
     margin: 0 -100px;
 
-    background-color: #fff;
-    box-shadow: 0px 10px 20px -10px #000;
+    background-color: var(--white);
+    box-shadow: 0px 10px 20px -10px var(--black);
 
     position: relative;
     z-index: 2;
@@ -85,17 +108,20 @@ main {
     display: grid;
     place-items: center;
 
-    border: 2px solid #000;
-    background-color: #CCC;
+    border: 2px solid var(--black);
+    border-radius: 5px;
+    background-color: var(--white);
 
     position: relative;
     z-index: 1;
 }
 .player1 {
     grid: 1fr / 1fr min-content;
+    overflow: hidden;
 }
 .player2 {
     grid: 1fr / min-content 1fr;
+    overflow: hidden;
 }
 
 .player1 p,
@@ -107,8 +133,9 @@ main {
 
 .count {
     font-size: 3rem;
+    font-weight: 500;
 
-    outline: 1px solid #000;
+    outline: 2px solid var(--black);
 
     width: min-content;
     padding: 0 10px;
@@ -129,12 +156,13 @@ main {
 .symbol2 {
     font-size: 5rem;
     text-align: center;
-    border: 2px solid #000;
+    border: 2px solid var(--black);
+    border-radius: 5px;
     padding: 0 10px;
     width: min-content;
 
-    background-color: #FFF;
-    box-shadow: 0px 10px 20px -10px #000;
+    background-color: var(--white);
+    box-shadow: 0px 10px 20px -10px var(--black);
 }
 
 .hidden {
@@ -151,7 +179,7 @@ main {
 
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    background-color: var(--white);
 
     display: grid;
     justify-content: center;
@@ -162,9 +190,14 @@ main {
     padding: 5px 15px;
     font-size: 3rem;
 
-    border: 2px solid #000;
+    border: 2px solid var(--black);
     border-radius: 5px;
-    box-shadow: 0px 5px 10px -5px #000;
+    box-shadow: 0px 5px 10px -5px var(--pink);
+    background-color: var(--white);
+}
+#start-game:hover {
+    box-shadow: 0px 5px 15px -5px var(--pink);
+    transform: translateY(1px);
 }
 #start-game:active {
     transform: translateY(5px);
@@ -174,27 +207,32 @@ main {
 #symbol1,
 #symbol2 {
     display: grid;
-    grid: 1fr / min-content min-content;
+    grid: 1fr / min-content;
     place-content: center;
     gap: 15px;
 }
 #symbol1 div,
 #symbol2 div{
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     text-align: center;
-    border: 2px solid #000;
+    border: 3px solid var(--darkGrey);
     font-size: 3rem;
-    box-shadow: 0px 5px 5px -2px #000;
+    box-shadow: 0px 5px 5px -2px var(--black);
+    border-radius: 1vw;
+    color: var(--darkGrey);
+    transition-duration: 300ms;
 }
 #symbol1 div:hover,
 #symbol2 div:hover{
     transform: translateY(1px);
+    box-shadow: 0px 5px 5px -2px var(--pink);
 }
 #symbol1 div:active,
 #symbol2 div:active{
     transform: translateY(2px);
     box-shadow: none;
+    color: var(--pink);
 }
 #name1,
 #name2 {
@@ -208,12 +246,15 @@ main {
     text-align: center;
     width: 70%;
 
-    box-shadow: 0px 10px 10px -10px #000;
-    border: 1px solid #000;
+    box-shadow: 0px 10px 10px -10px var(--darkGrey);
+    border: 2px solid var(--darkGrey);
+    border-radius: 1vw;
+    background-color: var(--white);
 }
 #name1 input:focus,
 #name2 input:focus {
     outline: none;
+    box-shadow: 0px 10px 10px -10px var(--pink);
 }
 
 
@@ -223,7 +264,7 @@ main {
 
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--twhite);
 
     display: flex;
     flex-direction: column;
@@ -243,9 +284,15 @@ main {
     padding: 5px 15px;
     font-size: 2rem;
 
-    border: 2px solid #000;
+    border: 2px solid var(--darkGrey);
     border-radius: 5px;
-    box-shadow: 0px 10px 20px -10px #000;
+    box-shadow: 0px 10px 20px -10px var(--darkGrey);
+    background-color: var(--white);
+}
+#new-round:hover,
+#new-game:hover {
+    box-shadow: 0px 10px 20px -10px var(--pink);
+    transform: translateY(1px);
 }
 #new-round:active, 
 #new-game:active {
@@ -254,7 +301,7 @@ main {
 }
 
 .turn {
-    background-color: pink;
+    background-color: var(--pink);
 }
 
 
