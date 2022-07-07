@@ -34,4 +34,8 @@
 
 5. (Slightly) Fancier Styling
 
-    <!-- change turn display into a accent color chadow that alternates sides -->
+    I created a palette with Coolors, I didn't know what I was looking for but I managed to create something I am happy about.
+
+    <img src="./assets/images/new-ui.gif" width="500"/>
+
+6. AI implementation

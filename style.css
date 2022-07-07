@@ -216,7 +216,6 @@ main {
     place-content: center;
     gap: 15px;
     font-family: 'Fredoka One', cursive;
-    overflow: hidden;
 }
 #symbol1 div,
 #symbol2 div{
