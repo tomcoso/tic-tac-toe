@@ -30,9 +30,10 @@
     <!-- code new game button -->
     <!-- code scores on players -->
     <!-- code scores on display after continue button is pressed -->
-    code player name inputs
-    code symbol selection
+    <!-- code player name inputs -->
+    <!-- code symbol selection -->
     <!-- code new game button so that it takes you to start game and name input panel -->
-    make each player name light up when its the player's turn
+    <!-- make each player name light up when its the player's turn -->
 
-    BUG: fix _selectPlayer logic where if selecting on an marked cell you lose the turn
+    <!-- BUG: fix _selectPlayer logic where if selecting on an marked cell you lose the turn -->
+    <!-- BUG: broken counter -->

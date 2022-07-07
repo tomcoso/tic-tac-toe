@@ -191,13 +191,10 @@ main {
 #symbol2 div:hover{
     transform: translateY(1px);
 }
-#symbol1 .symbolSelected,
-#symbol2 .symbolSelected,
-#symbol1 .symbolSelected:hover,
-#symbol2 .symbolSelected:hover  {
+#symbol1 div:active,
+#symbol2 div:active{
     transform: translateY(2px);
     box-shadow: none;
-    background-color: red;
 }
 #name1,
 #name2 {
@@ -254,6 +251,10 @@ main {
 #new-game:active {
     transform: translateY(5px);
     box-shadow: none;
+}
+
+.turn {
+    background-color: pink;
 }
 
 

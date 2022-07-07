@@ -83,6 +83,7 @@ let gameboard = (function() {
 
                     if (gameboard[index] === null) {
                         gameboard[index] = player[symbolIndex];
+                        pubsub.publish('playerTurn');
                     } else if (player === players[0].id){
                         lastPlay = players[1].id;
                     } else {
@@ -204,14 +205,17 @@ let Player = function(name, symbol) {
 let display = (function() {
 
     // cache DOM
-    let player1Name = document.querySelector('.player1 p').textContent;
-    let player2Name = document.querySelector('.player2 p').textContent;
+    let player1Display = document.querySelector('.player1');
+    let player2Display = document.querySelector('.player2');
+
+    let player1Name = document.querySelector('.player1 p');
+    let player2Name = document.querySelector('.player2 p');
 
     let player1Count = document.querySelector('.player1 .count');
     let player2Count = document.querySelector('.player2 .count');
 
-    let player1Symbol = document.querySelector('.symbol1').textContent;
-    let player2Symbol = document.querySelector('.symbol2').textContent;
+    let player1Symbol = document.querySelector('.symbol1');
+    let player2Symbol = document.querySelector('.symbol2');
 
     let startGamePanel = document.querySelector('.start-container');
     let startGameBtn = document.querySelector('#start-game');
@@ -221,10 +225,45 @@ let display = (function() {
     let newRoundBtn = document.querySelector('#new-round');
     let newGameBtn = document.querySelector('#new-game');
 
+    let player1Input = document.querySelector('#name1 input');
+    let player2Input = document.querySelector('#name2 input');
+    let symbol1Input = document.querySelector('#symbol1 div');
+    let symbol2Input = document.querySelector('#symbol2 div');
+
+    let displaySection = document.querySelector('.display');
+
+    // allow name input
+    player1Input.addEventListener('change', () => {
+        player1Name.textContent = player1Input.value;
+    });
+    player2Input.addEventListener('change', () => {
+        player2Name.textContent = player2Input.value;
+    });
+
+    // allow symbol choice
+    let symbolInputs = [symbol1Input, symbol2Input];
+    symbolInputs.forEach( each => {
+        each.addEventListener('click', () => {
+        if (symbol1Input.textContent === 'x') {
+            symbol1Input.textContent = 'o';
+            player1Symbol.textContent = 'o';
+            symbol2Input.textContent = 'x';
+            player2Symbol.textContent = 'x';
+        }
+        else if (symbol1Input.textContent === 'o') {
+            symbol1Input.textContent = 'x';
+            player1Symbol.textContent = 'x';
+            symbol2Input.textContent = 'o';
+            player2Symbol.textContent = 'o';
+        }
+    })});
+    
+
+
     let _setPlayer = function() {
 
-        let player1 = Player(player1Name, player1Symbol);
-        let player2 = Player(player2Name, player2Symbol);
+        let player1 = Player(player1Name.textContent, player1Symbol.textContent);
+        let player2 = Player(player2Name.textContent, player2Symbol.textContent);
 
         console.log('setPlayer', player1, player2);
 
@@ -237,7 +276,9 @@ let display = (function() {
 
         pubsub.publish('newGame', [player1, player2]);
 
-        startGamePanel.classList.add('hidden');
+        startGamePanel.classList.toggle('hidden');
+        displaySection.classList.toggle('hidden');
+
     }
     startGameBtn.addEventListener('click', _startGame);
 
@@ -253,6 +294,7 @@ let display = (function() {
 
         startGamePanel.classList.toggle('hidden');
         changeStatusPanel.classList.toggle('hidden');
+        displaySection.classList.toggle('hidden');
         player1Count.textContent = 0
         player2Count.textContent = 0
 
@@ -266,9 +308,9 @@ let display = (function() {
         if (data[0] === 'win') {
 
             changeStatusMsg.textContent = `${data[1].name} wins this round!!`
-            if (data[1].name === player1Name) {
+            if (data[1].name === player1Name.textContent) {
                 player1Count.textContent = +player1Count.textContent + 1;
-            } else if (data[1].name === player2Name) {
+            } else if (data[1].name === player2Name.textContent) {
                 player2Count.textContent = +player2Count.textContent + 1;
             }
         }
@@ -276,8 +318,14 @@ let display = (function() {
             changeStatusMsg.textContent = "Its's a tie!!"
         }
     }
+
+    let _displayTurn = function() {
+        player1Display.classList.toggle('turn');
+        player2Display.classList.toggle('turn');
+    }
         
     pubsub.subscribe('statusChange', _statusHandler);
+    pubsub.subscribe('playerTurn', _displayTurn);
 
     return {  }
 })();
