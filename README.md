@@ -34,4 +34,4 @@
 
 5. (Slightly) Fancier Styling
 
-    change turn display into a accent color chadow that alternates sides
+    <!-- change turn display into a accent color chadow that alternates sides -->
