@@ -39,3 +39,7 @@
     <img src="./assets/images/new-ui.gif" width="500"/>
 
 6. AI implementation
+
+    make whites a bit brighter
+    make buttons and  text bigger on mobile
+    change color of the winning 3 and set timeout of the new round panel

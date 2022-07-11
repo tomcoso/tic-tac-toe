@@ -40,7 +40,7 @@ let pubsub = {
 // gameboard module
 let gameboard = (function() {
 
-    let gameboard = ['o', 'o', 'x', 'o', 'x', 'x', 'x', 'o', 'x']; ;
+    let gameboard = ['', '', '', '', '', '', '', '', '']; ;
     let lastPlay = '';
     let firstMove = '';
     let players = [];
@@ -73,10 +73,10 @@ let gameboard = (function() {
     let _render = function(player, position) {
         console.log('render:',player, position);
 
-        if (player && position){ 
+        if (player){ 
             for (let i = 0; i < htmlBoard.length ; i++) {
 
-                if (htmlBoard[i] === position) {
+                if (htmlBoard[i] === position || htmlBoard[i].attributes[1].value == position) {
 
                     let index = htmlBoard[i].attributes[1].value
                     let symbolIndex = player.length - 1;
@@ -91,47 +91,72 @@ let gameboard = (function() {
                     }
                 }
             }
+            
         }
         for ( let i = 0 ; i < gameboard.length ; i++ ) {
             htmlBoard[i].textContent = gameboard[i];
         }
 
-        _checkStatus();
+        let aiTurn = _checkStatus();
+
+        if (players[1]) {
+            if (players[1].name === 'AI' && lastPlay === players[0].id && !aiTurn) {
+                pubsub.publish('aiTurn', gameboard);
+            }
+        }
+        // if (players[1]) {
+        //     if (players[1].name === 'AI' && lastPlay === players[0].id) {
+        //         _checkStatus(true);
+        //         console.log('ai');
+        //     } else {
+        //         _checkStatus();
+        //     }
+        // }
     }
 
     let _restart = function(players) {
 
         console.log('restart', players)
-
-        _clearArray();
-
+        
         firstMove = players[0].id;
+        lastPlay = '';
 
         _getPlayers(players);
+        _clearArray();
     }
 
-    let _selectPlayer = function() {
-        console.log('selectPlayer:')
+    let _selectPlayer = function(index) {
+        console.log('selectPlayer:', index)
         switch (lastPlay) {
 
             case players[0].id :
                 lastPlay = players[1].id;
-                _render(players[1].id, this);
+
+                if (typeof index === 'number') {
+                    setTimeout(function(){_render(players[1].id, index)},400);
+                }
+                else {_render(players[1].id, this);}
                 break;
 
             case players[1].id :
                 lastPlay = players[0].id;
+
                 _render(players[0].id, this);
                 break;
 
             case '' :
-                _render(firstMove, this);
                 if (firstMove === players[0].id) {
                     lastPlay = players[0].id;
                 }
                 else {
                     lastPlay = players[1].id;
                 }
+
+                if (typeof index === 'number') {
+                    setTimeout(function(){_render(firstMove, index)}, 400);
+                }
+                else {_render(firstMove, this)};
+
                 break;
         }
     }
@@ -162,19 +187,24 @@ let gameboard = (function() {
             
             if (lastPlay === players[0].id) {
                 pubsub.publish('statusChange', ['win', players[0]]);
+                return true;
             } else {
                 pubsub.publish('statusChange', ['win', players[1]]);
+                return true;
             };
 
             // match tie
         } else if (!boardMatch.match(/n/)) {
             pubsub.publish('statusChange', ['tie']);
-        }
+            return true;
+        } 
     }
 
     pubsub.subscribe('newGame', _restart);
     pubsub.subscribe('makeMove', _render);
     pubsub.subscribe('newRound', _clearArray);
+
+    pubsub.subscribe('aiMove', _selectPlayer);
 
     return { seeArray, _restart, _checkStatus };
 })(); 
@@ -297,6 +327,7 @@ let display = (function() {
         displaySection.classList.toggle('hidden');
         player1Count.textContent = 0
         player2Count.textContent = 0
+        pubsub.publish('playerTurn');
 
     }
     newGameBtn.addEventListener('click', _newGame);
@@ -328,4 +359,29 @@ let display = (function() {
     pubsub.subscribe('playerTurn', _displayTurn);
 
     return {  }
+})();
+
+let gameAI = (function() {
+
+    let _play = function(gameboard) {
+        console.log(gameboard)
+        let index = Math.floor(Math.random() * 9);
+        for (let i = index ; ; ) {
+
+            if (gameboard[i] === null) {
+                pubsub.publish('aiMove', i)
+                break;
+            };
+
+            if (i === 8) {
+                i = 0;
+            } else {
+                i++
+            };
+        }
+    }
+
+
+    pubsub.subscribe('aiTurn', _play)
+
 })();
