@@ -10,8 +10,8 @@
     font-family: 'Lobster', cursive;
 
     --darkGrey: hsl(174, 30%, 21%);
-    --white: hsl(66, 49%, 80%);
-    --twhite: hsla(66, 49%, 80%, 0.8);
+    --white: hsl(66, 49%, 90%);
+    --twhite: hsla(66, 49%, 90%, 0.8);
     --black: hsl(315, 77%, 5%);
     --pink: hsl(345, 91%, 48%);
 }
@@ -200,11 +200,13 @@ main {
     box-shadow: 0px 5px 10px -5px var(--pink);
     background-color: var(--white);
 }
-#start-game:hover {
+#start-game:hover,
+#name2 button:hover {
     box-shadow: 0px 5px 15px -5px var(--pink);
     transform: translateY(1px);
 }
-#start-game:active {
+#start-game:active,
+#name2 button:active {
     transform: translateY(5px);
     box-shadow: none;
 }
@@ -244,6 +246,7 @@ main {
 #name1,
 #name2 {
     display: grid;
+    grid: 1fr / 1fr min-content;
     place-content: center;
     place-items: center;
 }
@@ -264,6 +267,37 @@ main {
 #name2 input:focus {
     outline: none;
     box-shadow: 0px 10px 10px -10px var(--pink);
+}
+#name2{
+    width: 70%;
+    place-self: center;
+    gap: 10px;
+}
+#name2 input{
+    width: 100% ;
+}
+#name2 button {
+    font-size: 2.2rem;
+    font-family: 'Fredoka One', cursive;
+    line-height: 90%;
+    padding: 16%;
+    box-shadow: 0px 10px 10px -10px var(--darkGrey);
+    border: 2px solid var(--darkGrey);
+    border-radius: 1vw;
+    background-color: var(--white);
+}
+
+.mono {
+    font-family: 'Fredoka One', cursive !important;
+}
+#name2 .aiSelected {
+    transform: translateY(2px);
+    transform: scale(0.8);
+    box-shadow: none;
+    background-color: var(--pink);
+    border-radius: 50%;
+    color: var(--pink);
+    border: none;
 }
 
 

@@ -262,6 +262,27 @@ let display = (function() {
 
     let displaySection = document.querySelector('.display');
 
+    let aiBtn = document.querySelector('#name2 button');
+    aiBtn.addEventListener('click', () => {
+        player2Input.classList.toggle('mono');
+        if (player2Input.readOnly) {
+            player2Input.readOnly = false;
+        } else {
+            player2Input.readOnly = true;
+        }
+
+        if (player2Input.value === 'AI') {
+            player2Input.value = 'Player 2';
+            player2Name.textContent = 'Player 2';
+        } else {
+            player2Input.value = 'AI';
+            player2Name.textContent = 'AI';
+        }
+
+        aiBtn.classList.toggle('aiSelected');
+        player2Name.classList.toggle('mono');
+    })
+
     // allow name input
     player1Input.addEventListener('change', () => {
         player1Name.textContent = player1Input.value;
