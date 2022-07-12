@@ -52,7 +52,6 @@ let gameboard = (function() {
     let htmlBoard = document.querySelectorAll('.cell');
 
     let _getPlayers = function(data) {
-        console.log(data);
 
         players = [];
         players.push(data[0]);
@@ -71,7 +70,6 @@ let gameboard = (function() {
 
 
     let _render = function(player, position) {
-        console.log('render:',player, position);
 
         if (player){ 
             for (let i = 0; i < htmlBoard.length ; i++) {
@@ -107,8 +105,6 @@ let gameboard = (function() {
     }
 
     let _restart = function(players) {
-
-        console.log('restart', players)
         
         firstMove = players[0].id;
         lastPlay = '';
@@ -118,7 +114,6 @@ let gameboard = (function() {
     }
 
     let _selectPlayer = function(index) {
-        console.log('selectPlayer:', index)
         switch (lastPlay) {
 
             case players[0].id :
@@ -166,7 +161,6 @@ let gameboard = (function() {
                 boardMatch += gameboard[i];
             }
         }
-        console.log('checkStatus');
 
             // match horizontal wins
         if (boardMatch.match(/(^((o){3}|(x){3}))|(((o){3}|(x){3})$)|(\S{3}((o){3}|(x){3})\S{3})/) ||
@@ -308,8 +302,6 @@ let display = (function() {
         let player1 = Player(player1Name.textContent, player1Symbol.textContent);
         let player2 = Player(player2Name.textContent, player2Symbol.textContent);
 
-        console.log('setPlayer', player1, player2);
-
         return { player1, player2 };
     }
 
@@ -346,7 +338,6 @@ let display = (function() {
     newGameBtn.addEventListener('click', _newGame);
 
     let _statusHandler = function(data) {
-        console.log('statusHandler', data)
         changeStatusPanel.classList.toggle('hidden');
 
         if (data[0] === 'win') {

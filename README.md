@@ -1,6 +1,6 @@
 # tic-tac-toe project from TOP
 
-## [Live demo](https://tomcoso.github.io/tic-tac-toe/)
+### [Live demo](https://tomcoso.github.io/tic-tac-toe/)
 
 ## Process
 
@@ -51,4 +51,5 @@
     #### AI playing against me
 
     <img src="./assets/images/ai-works.gif" width="400"/>
+
 
