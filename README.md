@@ -36,12 +36,19 @@
 
     I created a palette with Coolors, I didn't know what I was looking for but I managed to create something I am happy about.
 
-    <img src="./assets/images/new-ui.gif" width="500"/>
+    <img src="./assets/images/new-ui.gif" width="400"/>
 
 6. AI implementation
 
-    <!-- make whites a bit brighter -->
-    <!-- make buttons and  text bigger on mobile -->
-    change color of the winning 3 and set timeout of the new round panel
+    I researched the minimax algorithm but I decided not to build it since AI is not the main goal of the TOP curriculum, I managed to get a basic understanding though but figured that building it would take me another 2 days or so.
 
-    <!-- BUG: turn display shifts after starting new game when already on player1 turn -->
+    Instead I decided to simply build a random AI, where I could focus mostly on the AI implementation itself, which took around a day or so of work (6/8 hours?). Here again I was very glad I built that pubsub module in the beginning, it was the perfect tool to keep all the modules communicating and the global scope clean.
+
+    #### Very basic diagram for the ai incorporation
+
+    <img src="./assets/images/diagram-ai.png" width="300"/>
+
+    #### AI playing against me
+
+    <img src="./assets/images/ai-works.gif" width="400"/>
+
