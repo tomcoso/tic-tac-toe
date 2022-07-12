@@ -371,7 +371,7 @@ main {
     }
     .player1 p,
     .player2 p {
-        font-size:  6vw;
+        font-size:  8vw;
     }
     .symbol1,
     .symbol2 {
@@ -381,24 +381,24 @@ main {
         left: calc(280px / 2 - 90px / 2);
     }
     .count {
-        font-size: 8vw;
+        font-size: 10vw;
     }
 
     #start-game {
-        font-size: 6vw;
+        font-size: 8vw;
     }
 
     #new-round,
     #new-game {
-        font-size: 4vw;
+        font-size: 8vw;
     }
     .endgame-container p {
-        font-size: 5vw;
+        font-size: 7vw;
     }
 
     #name1 input,
     #name2 input {
-        font-size: 6vw;
+        font-size: 8vw;
     }
 
     #symbol1 div,
@@ -406,5 +406,9 @@ main {
         width: 13vw;
         height: 13vw;
         font-size: 12vw;
+    }
+
+    #name2 button {
+        font-size: 8vw;
     }
 }
