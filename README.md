@@ -41,7 +41,7 @@
 6. AI implementation
 
     <!-- make whites a bit brighter -->
-    make buttons and  text bigger on mobile
+    <!-- make buttons and  text bigger on mobile -->
     change color of the winning 3 and set timeout of the new round panel
 
-    BUG: turn display shifts after starting new game when already on player1 turn
+    <!-- BUG: turn display shifts after starting new game when already on player1 turn -->

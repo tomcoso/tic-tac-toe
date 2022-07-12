@@ -104,14 +104,6 @@ let gameboard = (function() {
                 pubsub.publish('aiTurn', gameboard);
             }
         }
-        // if (players[1]) {
-        //     if (players[1].name === 'AI' && lastPlay === players[0].id) {
-        //         _checkStatus(true);
-        //         console.log('ai');
-        //     } else {
-        //         _checkStatus();
-        //     }
-        // }
     }
 
     let _restart = function(players) {
@@ -343,12 +335,12 @@ let display = (function() {
 
     let _newGame = function() {
 
+        pubsub.publish('playerTurn', 'restart');
         startGamePanel.classList.toggle('hidden');
         changeStatusPanel.classList.toggle('hidden');
         displaySection.classList.toggle('hidden');
         player1Count.textContent = 0
         player2Count.textContent = 0
-        pubsub.publish('playerTurn');
 
     }
     newGameBtn.addEventListener('click', _newGame);
@@ -371,7 +363,11 @@ let display = (function() {
         }
     }
 
-    let _displayTurn = function() {
+    let _displayTurn = function(restart) {
+
+        if (restart && displaySection.classList.value === 'display turn1') {
+            return;
+        }
         displaySection.classList.toggle('turn1');
         displaySection.classList.toggle('turn2');
     }
